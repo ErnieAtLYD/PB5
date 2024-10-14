@@ -30,7 +30,7 @@ describe('GET', () => {
     mockedKv.get.mockImplementation((key) => Promise.resolve(`Content ${key}`))
 
     const response = await GET()
-    expect(JSON.parse(await response.json())).toEqual(mockPastes)
+    expect(response.data).toEqual(mockPastes)
   })
 })
 
@@ -42,7 +42,7 @@ describe('POST', () => {
     }
 
     const response = await POST(mockRequest as unknown as Request)
-    const responseData = JSON.parse(await response.json())
+    const responseData = response.data
     expect(responseData.message).toBe('Paste created')
     expect(responseData.id).toBeDefined()
     expect(kv.set).toHaveBeenCalledWith(expect.any(String), mockContent)
