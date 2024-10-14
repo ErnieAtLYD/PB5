@@ -138,6 +138,15 @@ export async function GET(request: Request) {
 
 - Define environment variables in the `.env.local` file for local development.
 - Use `NEXT_PUBLIC_` prefix for variables that need to be exposed to the browser.
+- For GitHub OAuth, ensure the following variables are set:
+
+  ```plaintext
+  GITHUB_CLIENT_ID=your_github_client_id
+  GITHUB_CLIENT_SECRET=your_github_client_secret
+  ```
+
+- Define environment variables in the `.env.local` file for local development.
+- Use `NEXT_PUBLIC_` prefix for variables that need to be exposed to the browser.
 
 ## Testing
 

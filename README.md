@@ -51,6 +51,22 @@ Note: Make sure to use `pnpm` instead of `npm` or `yarn` for all package managem
 
 ## Getting Started
 
+### GitHub Authentication Setup
+
+To enable GitHub authentication, you need to set up OAuth credentials:
+
+1. Go to your GitHub Developer settings and create a new OAuth app.
+2. Set the callback URL to `http://localhost:3000/api/auth/callback/github`.
+3. Copy the `Client ID` and `Client Secret` provided by GitHub.
+4. Add these credentials to your `.env` file:
+
+   ```
+   GITHUB_CLIENT_ID=your_github_client_id
+   GITHUB_CLIENT_SECRET=your_github_client_secret
+   ```
+
+5. Restart your development server to apply the changes.
+
 1. Clone the repository:
 
    ```
