@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { savePaste } from '../../../lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const id = Date.now().toString();
 
     // Save the paste content to the database
-    await kv.set(id, content);
+    await savePaste(id, content);
 
     // Return a success response with the paste ID
     return NextResponse.json({ message: 'Paste created', id }, { status: 201 });
