@@ -99,3 +99,18 @@ export default function Home() {
 		</div>
 	);
 }
+import React from 'react';
+import PasteForm from '../components/PasteForm';
+import PasteList from '../components/PasteList';
+
+const HomePage = () => {
+  return (
+    <div>
+      <h1>Pastebin Clone</h1>
+      <PasteForm />
+      <PasteList />
+    </div>
+  );
+};
+
+export default HomePage;
