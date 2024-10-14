@@ -9,14 +9,12 @@ It includes a variety of pre-configured tools and best practices to help you get
 - **Next.js 14**: Utilizing the latest features including the App Router and Server Components
 - **TypeScript**: For type-safe code and improved developer experience
 - **Tailwind CSS**: For rapid and responsive UI development
-- **ESLint**: Configured for Next.js and TypeScript projects
-- **Prettier**: For consistent code formatting
 - **Jest**: Set up for unit and integration testing
 - **React Testing Library**: For component testing
 - **Husky**: For pre-commit hooks
 - **lint-staged**: To run linters on git staged files
 - **pnpm**: Fast, disk space efficient package manager
-- **biome**: Versatile code formatting, linting, and analysis tool
+- **biome**: Versatile code formatting, linting, and analysis tool; replaces eslint and prettier
 
 ## Package Management with pnpm
 
@@ -67,33 +65,33 @@ To enable GitHub authentication, you need to set up OAuth credentials:
 
 5. Restart your development server to apply the changes.
 
-1. Clone the repository:
+6. Clone the repository:
 
    ```
    git clone https://github.com/ErnieAtLYD/my-nextjs-app.git
    ```
 
-2. Install dependencies:
+7. Install dependencies:
 
    ```
    pnpm install
    ```
 
-3. Run the development server:
+8. Run the development server:
 
    ```
    pnpm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+9. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Scripts
 
 - `pnpm run dev`: Starts the development server
 - `pnpm run build`: Builds the app for production
 - `pnpm start`: Runs the built app in production mode
-- `pnpm run lint`: Runs ESLint
-- `pnpm run format`: Formats code with Prettier
+- `pnpm run lint`: Runs Biome linter
+- `pnpm run format`: Formats code with Biome
 - `pnpm run test`: Runs Jest tests
 
 ## Project Structure
