@@ -1,67 +1,97 @@
-# Conventions for Next.js Project
+# Conventions for Next.js 14 Project with App Router
 
-This document outlines the conventions to follow when developing with Next.js in this project. Adhering to these guidelines will help maintain consistency and improve collaboration among team members.
+This document outlines the conventions to follow when developing with Next.js 14 and the App Router in this project. Adhering to these guidelines will help maintain consistency and improve collaboration among team members.
 
 ## Project Structure
 
+```
 /project-root
-|-- /public # Static files like images and icons
-|-- /src # Main source code
-| |-- /components # Reusable React components
-| |-- /pages # Next.js pages
-| |-- /styles # Global styles and component-specific styles
-| |-- /hooks # Custom hooks  
-| |-- /utils # Utility functions
-| |-- /contexts # React contexts
-| |-- /services # API services
-| -- /tests # Tests
-|-- /tests # End-to-end tests and other test configurations
-|-- /types # TypeScript types (if using TypeScript)
-|-- .env # Environment variables
-|-- next.config.js # Next.js configuration
-|-- package.json # Project dependencies and scripts
--- README.md # Project overview and setup instructions
+|-- /public           # Static files like images and icons
+|-- /src              # Main source code
+|   |-- /app          # App Router pages and layouts
+|   |   |-- /api      # API routes
+|   |-- /components   # Reusable React components
+|   |-- /lib          # Utility functions and shared logic
+|   |-- /hooks        # Custom hooks
+|   |-- /styles       # Global styles
+|   |-- /types        # TypeScript types and interfaces
+|-- /tests            # End-to-end tests and other test configurations
+|-- .env              # Environment variables
+|-- next.config.mjs   # Next.js configuration
+|-- package.json      # Project dependencies and scripts
+|-- tsconfig.json     # TypeScript configuration
+-- README.md          # Project overview and setup instructions
+```
 
-# Conventions for Next.js TypeScript Project
-
-This document outlines the conventions to follow when developing with Next.js and TypeScript in this project. Adhering to these guidelines will help maintain consistency and improve collaboration among team members.
-
-## Project Structure
-
-/project-root |-- /public # Static files like images and icons |-- /src # Main source code | |-- /components # Reusable React components | |-- /pages # Next.js pages | |-- /styles # Global styles and component-specific styles | |-- /hooks # Custom hooks | |-- /utils # Utility functions | |-- /contexts # React contexts | |-- /services # API services | |-- /types # TypeScript types and interfaces | -- /tests # Tests |-- /tests # End-to-end tests and other test configurations |-- .env # Environment variables |-- next-env.d.ts # Next.js environment types |-- next.config.js # Next.js configuration |-- tsconfig.json # TypeScript configuration |-- package.json # Project dependencies and scripts -- README.md # Project overview and setup instructions
-
-## Naming Conventions
+## App Router Conventions
 
 ### File and Folder Names
 
-- Use `PascalCase` for components and hooks (e.g., `MyComponent.tsx`, `useCustomHook.ts`).
-- Use `kebab-case` for directories (e.g., `my-directory`).
-- Keep file names descriptive and relevant to their content.
+- Use `kebab-case` for route segment folders (e.g., `about-us`).
+- Special files in the App Router:
+  - `layout.tsx`: For shared layouts
+  - `page.tsx`: For route components
+  - `loading.tsx`: For loading UI
+  - `error.tsx`: For error handling
+  - `not-found.tsx`: For custom 404 pages
 
-### Components
+### Routing Structure
 
-- Component files should be named after the component (e.g., `Button.tsx` for a Button component).
-- Each component should reside in its own folder, with styles and tests located there as well.
+- Organize routes using nested folders in the `/app` directory.
+- Use dynamic routes with square brackets (e.g., `[id]` for dynamic segments).
+- Group related routes using route groups with parentheses (e.g., `(marketing)`).
 
-/src/components/Button/ |-- Button.tsx |-- Button.module.css `-- Button.test.tsx
+Example:
 
-### Pages
+```
+/app
+|-- layout.tsx
+|-- page.tsx
+|-- about
+|   -- page.tsx
+|-- blog
+|   |-- layout.tsx
+|   |-- page.tsx
+|   |-- [slug]
+|       -- page.tsx
+|-- (dashboard)
+    |-- layout.tsx
+    |-- profile
+    |   -- page.tsx
+    |-- settings
+        -- page.tsx
+```
 
-- Each page file should correspond to a route and be named using `kebab-case` (e.g., `about.js` for the `/about` route).
-- Use dynamic routes for pages that need them (e.g., `[id].js` for a dynamic item).
+### Data Fetching
 
-## Coding Style
+- Prefer Server Components for data fetching when possible.
+- Use `async`/`await` in Server Components for data fetching:
 
-### Pages
+```tsx
+async function Page() {
+  const data = await fetchData()
+  return <main>{/* Use data */}</main>
+}
+```
 
-- Each page file should correspond to a route and be named using `kebab-case` (e.g., `about.tsx` for the `/about` route).
-- Use dynamic routes for pages that need them (e.g., `[id].tsx` for a dynamic item).
+- For client-side data fetching, use React Server Components with `use client` directive and SWR or React Query.
+
+### Metadata
+
+- Use the Metadata API for SEO optimization:
+
+```tsx
+export const metadata = {
+  title: 'My Page',
+  description: 'Description for my page',
+}
+```
 
 ## TypeScript Conventions
 
 ### Types and Interfaces
 
-- Define types and interfaces in the `/types` directory.
+- Define types and interfaces in the `/src/types` directory.
 - Use `interface` for objects and `type` for union types or function signatures.
 - Prefer explicit typing over `any` and avoid using `unknown` unless necessary.
 
@@ -69,49 +99,50 @@ This document outlines the conventions to follow when developing with Next.js an
 
 - Always type props and state in components:
 
-  ```tsx
-  interface ButtonProps {
-    label: string
-    onClick: () => void
-  }
+```tsx
+interface ButtonProps {
+  label: string
+  onClick: () => void
+}
 
-  const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
-    return <button onClick={onClick}>{label}</button>
-  }
-  ```
+const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
+  return <button onClick={onClick}>{label}</button>
+}
+```
 
-### JavaScript/TypeScript
+## Coding Style
 
 - Follow the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) or configure ESLint to enforce style.
 - Use `const` and `let` instead of `var`.
 - Prefer arrow functions for functional components.
 
-### JSX
-
-- Use self-closing tags for empty elements.
-- Keep JSX indentation consistent (2 spaces).
-- Use destructuring for props in components.
-
 ## State Management
 
-- Use React’s built-in state and context for local state management.
-- For more complex state, consider using libraries like Zustand or Recoil.
+- Use React's built-in state and context for local state management.
+- For more complex state, consider using libraries like Zustand or Jotai.
 
-## API Calls
+## API Routes
 
-- Organize API calls in the `/services` directory.
-- Use `async/await` for handling asynchronous operations.
-- Keep API endpoints in a single configuration file or service.
+- Place API routes in the `/app/api` directory.
+- Use Edge Runtime for API routes when possible for better performance:
+
+```tsx
+export const runtime = 'edge'
+
+export async function GET(request: Request) {
+  // Handle GET request
+}
+```
+
+## Environment Variables
+
+- Define environment variables in the `.env.local` file for local development.
+- Use `NEXT_PUBLIC_` prefix for variables that need to be exposed to the browser.
 
 ## Testing
 
 - Use Jest and React Testing Library for unit and integration tests.
-- Organize tests alongside the components they test, following the naming convention mentioned above.
-
-## Environment Variables
-
-- Define environment variables in the `.env` file.
-- Use `NEXT_PUBLIC_` prefix for variables that need to be exposed to the browser.
+- Place test files next to the components they test with a `.test.tsx` extension.
 
 ## Documentation
 
@@ -127,3 +158,5 @@ This document outlines the conventions to follow when developing with Next.js an
 
 - Use `main` for production-ready code.
 - Use feature branches prefixed with `feature/` for new features and `bugfix/` for bug fixes.
+
+Remember to keep this document updated as new best practices emerge for Next.js and the App Router.
