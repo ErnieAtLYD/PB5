@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updatePasteById } from "@/lib/db";
+import { updatePaste } from "@/lib/db";
 
 jest.mock("./route", () => ({
   GET: jest.fn(),
@@ -53,7 +53,7 @@ describe("/api/pastes/[id] API Endpoint", () => {
 
   test("PUT method should update a paste by ID", async () => {
     const updatedContent = "Updated content";
-    (db.updatePasteById as jest.Mock).mockResolvedValue(undefined);
+    (db.updatePaste as jest.Mock).mockResolvedValue(undefined);
     (PUT as jest.Mock).mockImplementation(async (request) => {
       const { id } = request.params;
       const { content } = await request.json();
