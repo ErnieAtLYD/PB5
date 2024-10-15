@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { updatePasteById } from "@/lib/db";
+
 jest.mock("./route", () => ({
   GET: jest.fn(),
   PUT: jest.fn(),
@@ -51,11 +53,11 @@ describe("/api/pastes/[id] API Endpoint", () => {
 
   test("PUT method should update a paste by ID", async () => {
     const updatedContent = "Updated content";
-    (db.updatePaste as jest.Mock).mockResolvedValue(undefined);
+    (db.updatePasteById as jest.Mock).mockResolvedValue(undefined);
     (PUT as jest.Mock).mockImplementation(async (request) => {
       const { id } = request.params;
       const { content } = await request.json();
-      await db.updatePaste(id, content);
+      await db.updatePasteById(id, content);
       return NextResponse.json({ message: "Paste updated" });
     });
 
@@ -68,7 +70,7 @@ describe("/api/pastes/[id] API Endpoint", () => {
     const data = await response.json();
 
     expect(data).toEqual({ message: "Paste updated" });
-    expect(db.updatePaste).toHaveBeenCalledWith("1", updatedContent);
+    expect(db.updatePasteById).toHaveBeenCalledWith("1", updatedContent);
   });
 
   xtest("DELETE method should delete a paste by ID", async () => {
