@@ -23,7 +23,7 @@ describe('/api/pastes/[id] API Endpoint', () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
-    expect(res._getData()).toEqual(mockContent);
+    expect(JSON.parse(res._getData())).toEqual(mockContent);
     expect(db.getPasteById).toHaveBeenCalledWith(mockId);
   });
 
