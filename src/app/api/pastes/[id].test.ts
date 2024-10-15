@@ -43,7 +43,7 @@ describe("/api/pastes/[id] API Endpoint", () => {
     expect(db.getPasteById).toHaveBeenCalledWith("1");
   });
 
-  xtest("PUT method should update a paste by ID", async () => {
+  test("PUT method should update a paste by ID", async () => {
     const updatedContent = "Updated content";
     (db.updatePaste as jest.Mock).mockResolvedValue(undefined);
     (PUT as jest.Mock).mockImplementation(async (request) => {
