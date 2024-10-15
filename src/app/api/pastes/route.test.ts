@@ -17,14 +17,12 @@ jest.mock(
   () => ({
     GET: jest.fn(),
     POST: jest.fn(),
-    PUT: jest.fn(),
-    DELETE: jest.fn(),
   }),
   { virtual: true }
 );
 
 // Import the mocked functions
-import { GET, POST, PUT, DELETE } from "./route";
+import { GET, POST } from "./route";
 
 describe("Pastes API", () => {
   const mockPastes = [
@@ -62,7 +60,10 @@ describe("Pastes API", () => {
         const { content } = await request.json();
         const id = mockId;
         await db.savePaste(id, content);
-        return NextResponse.json({ message: "Paste created", id }, { status: 201 });
+        return NextResponse.json(
+          { message: "Paste created", id },
+          { status: 201 }
+        );
       });
 
       const mockRequest = {
@@ -80,7 +81,10 @@ describe("Pastes API", () => {
       (POST as jest.Mock).mockImplementation(async (request) => {
         const { content } = await request.json();
         if (!content) {
-          return NextResponse.json({ error: "Content is required" }, { status: 400 });
+          return NextResponse.json(
+            { error: "Content is required" },
+            { status: 400 }
+          );
         }
       });
 
@@ -95,9 +99,14 @@ describe("Pastes API", () => {
     });
 
     it("should return 500 on server error", async () => {
-      (db.savePaste as jest.Mock).mockRejectedValue(new Error("Database error"));
+      (db.savePaste as jest.Mock).mockRejectedValue(
+        new Error("Database error")
+      );
       (POST as jest.Mock).mockImplementation(async () => {
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json(
+          { error: "Internal Server Error" },
+          { status: 500 }
+        );
       });
 
       const mockRequest = {

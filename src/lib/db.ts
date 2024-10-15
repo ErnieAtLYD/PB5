@@ -1,4 +1,5 @@
 // src/lib/db.ts
+
 import { kv } from "@vercel/kv";
 
 // Function to save a paste
@@ -7,13 +8,11 @@ export async function savePaste(id: string, content: string): Promise<void> {
 }
 
 // Function to update a paste by ID
-export async function updatePasteById(id: string, content: string): Promise<void> {
+export async function updatePasteById(
+  id: string,
+  content: string
+): Promise<void> {
   await kv.set(id, content);
-}
-
-// Function to delete a paste by ID
-export async function deletePasteById(id: string): Promise<void> {
-  await kv.del(id);
 }
 
 // Function to retrieve a paste by ID
@@ -39,6 +38,6 @@ export async function getAllPastes(): Promise<
 }
 
 // Function to delete a paste by ID
-export async function deletePaste(id: string): Promise<void> {
+export async function deletePasteById(id: string): Promise<void> {
   await kv.del(id);
 }

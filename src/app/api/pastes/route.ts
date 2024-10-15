@@ -1,9 +1,14 @@
 // src/app/api/pastes/route.ts
 
 import { NextResponse } from "next/server";
-import { getAllPastes, savePaste, deletePaste, updatePaste } from "@/lib/db";
+import {
+  getAllPastes,
+  savePaste,
+  deletePaste,
+  updatePasteById,
+} from "@/lib/db";
 
-export async function GET() {
+export async function GET(request: Request) {
   const pastes = await getAllPastes();
   return NextResponse.json(pastes);
 }
@@ -16,7 +21,7 @@ export async function DELETE(request: Request) {
 
 export async function PUT(request: Request) {
   const { id, content } = await request.json();
-  await updatePaste(id, content);
+  await updatePasteById(id, content);
   return NextResponse.json({ message: "Paste updated" }, { status: 200 });
 }
 
