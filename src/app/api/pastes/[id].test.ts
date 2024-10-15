@@ -1,3 +1,4 @@
+import { Request } from "node-fetch";
 import { GET, PUT, DELETE } from "./route";
 import * as db from "@/lib/db";
 
