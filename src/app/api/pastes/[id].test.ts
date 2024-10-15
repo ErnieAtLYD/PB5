@@ -14,10 +14,9 @@ describe("/api/pastes/[id] API Endpoint", () => {
   test("GET method should return a paste by ID", async () => {
     (db.getPasteById as jest.Mock).mockResolvedValue(mockContent);
 
-    const req = {
+    const req = new Request(`http://localhost/api/pastes/${mockId}`, {
       method: "GET",
-      url: `http://localhost/api/pastes/${mockId}`,
-    };
+    });
     const res = await GET(req, { params: { id: mockId } });
 
     expect(res.status).toBe(200);
@@ -28,11 +27,10 @@ describe("/api/pastes/[id] API Endpoint", () => {
   test("PUT method should update a paste by ID", async () => {
     (db.updatePasteById as jest.Mock).mockResolvedValue(undefined);
 
-    const req = {
+    const req = new Request(`http://localhost/api/pastes/${mockId}`, {
       method: "PUT",
-      url: `http://localhost/api/pastes/${mockId}`,
       body: JSON.stringify({ content: mockContent }),
-    };
+    });
     const res = await PUT(req, { params: { id: mockId } });
 
     expect(res.status).toBe(200);
@@ -44,10 +42,9 @@ describe("/api/pastes/[id] API Endpoint", () => {
   test("DELETE method should delete a paste by ID", async () => {
     (db.deletePasteById as jest.Mock).mockResolvedValue(undefined);
 
-    const req = {
+    const req = new Request(`http://localhost/api/pastes/${mockId}`, {
       method: "DELETE",
-      url: `http://localhost/api/pastes/${mockId}`,
-    };
+    });
     const res = await DELETE(req, { params: { id: mockId } });
 
     expect(res.status).toBe(204);
