@@ -1,4 +1,5 @@
-import { kv } from '@vercel/kv';
+// src/lib/db.ts
+import { kv } from "@vercel/kv";
 
 // Function to save a paste
 export async function savePaste(id: string, content: string): Promise<void> {
@@ -11,10 +12,18 @@ export async function getPaste(id: string): Promise<string | null> {
 }
 
 // Function to retrieve all pastes
-export async function getAllPastes(): Promise<{ id: string; content: string }[]> {
-  const keys = await kv.keys('*');
+export async function getAllPastes(): Promise<
+  { id: string; content: string }[]
+> {
+  const keys = await kv.keys("*");
   const pastes = await Promise.all(
-    keys.map(async (key) => ({ id: key, content: await kv.get(key) }))
+    keys.map(async (key) => {
+      const content = await kv.get(key);
+      if (typeof content !== "string") {
+        throw new Error(`Unexpected content type for key: ${key}`);
+      }
+      return { id: key, content };
+    })
   );
   return pastes;
 }
