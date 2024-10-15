@@ -8,6 +8,12 @@ jest.mock("./route", () => ({
 import { GET, PUT, DELETE } from "./route";
 import * as db from "@/lib/db";
 
+jest.mock("@/lib/db", () => ({
+  getPasteById: jest.fn(),
+  updatePaste: jest.fn(),
+  deletePaste: jest.fn(),
+}));
+
 jest.mock("@/lib/db");
 jest.mock("next/server", () => ({
   NextResponse: {
