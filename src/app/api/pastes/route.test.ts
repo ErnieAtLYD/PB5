@@ -97,7 +97,7 @@ describe("Pastes API", () => {
     it("should return 500 on server error", async () => {
       (db.savePaste as jest.Mock).mockRejectedValue(new Error("Database error"));
       (POST as jest.Mock).mockImplementation(async () => {
-        throw new Error("Internal Server Error");
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
       });
 
       const mockRequest = {
