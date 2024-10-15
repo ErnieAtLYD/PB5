@@ -6,8 +6,18 @@ export async function savePaste(id: string, content: string): Promise<void> {
   await kv.set(id, content);
 }
 
+// Function to update a paste by ID
+export async function updatePasteById(id: string, content: string): Promise<void> {
+  await kv.set(id, content);
+}
+
+// Function to delete a paste by ID
+export async function deletePasteById(id: string): Promise<void> {
+  await kv.del(id);
+}
+
 // Function to retrieve a paste by ID
-export async function getPaste(id: string): Promise<string | null> {
+export async function getPasteById(id: string): Promise<string | null> {
   return await kv.get(id);
 }
 
