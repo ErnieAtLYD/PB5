@@ -53,5 +53,61 @@ describe("Pastes API", () => {
     });
   });
 
-  // Add more tests for POST, PUT, DELETE as needed
+  describe("POST", () => {
+    it("should create a new paste and return its ID", async () => {
+      const mockContent = "New paste content";
+      const mockId = "1234567890";
+      (db.savePaste as jest.Mock).mockResolvedValue(undefined);
+      (POST as jest.Mock).mockImplementation(async (request) => {
+        const { content } = await request.json();
+        const id = mockId;
+        await db.savePaste(id, content);
+        return NextResponse.json({ message: "Paste created", id }, { status: 201 });
+      });
+
+      const mockRequest = {
+        method: "POST",
+        json: async () => ({ content: mockContent }),
+      };
+      const response = await POST(mockRequest as any);
+      const data = await response.json();
+
+      expect(data).toEqual({ message: "Paste created", id: mockId });
+      expect(db.savePaste).toHaveBeenCalledWith(mockId, mockContent);
+    });
+
+    it("should return 400 if content is missing", async () => {
+      (POST as jest.Mock).mockImplementation(async (request) => {
+        const { content } = await request.json();
+        if (!content) {
+          return NextResponse.json({ error: "Content is required" }, { status: 400 });
+        }
+      });
+
+      const mockRequest = {
+        method: "POST",
+        json: async () => ({}),
+      };
+      const response = await POST(mockRequest as any);
+      const data = await response.json();
+
+      expect(data).toEqual({ error: "Content is required" });
+    });
+
+    it("should return 500 on server error", async () => {
+      (db.savePaste as jest.Mock).mockRejectedValue(new Error("Database error"));
+      (POST as jest.Mock).mockImplementation(async () => {
+        throw new Error("Internal Server Error");
+      });
+
+      const mockRequest = {
+        method: "POST",
+        json: async () => ({ content: "Some content" }),
+      };
+      const response = await POST(mockRequest as any);
+      const data = await response.json();
+
+      expect(data).toEqual({ error: "Internal Server Error" });
+    });
+  });
 });
