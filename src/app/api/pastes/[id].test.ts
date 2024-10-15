@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { Request } from "next/dist/server/web/spec-extension/request";
 import { GET, PUT, DELETE } from "./route";
 import * as db from "@/lib/db";
 
