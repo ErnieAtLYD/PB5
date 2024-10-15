@@ -1,4 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+jest.mock("./route", () => ({
+  GET: jest.fn(),
+  PUT: jest.fn(),
+  DELETE: jest.fn(),
+}));
+
 import { GET, PUT, DELETE } from "./route";
 import * as db from "@/lib/db";
 
