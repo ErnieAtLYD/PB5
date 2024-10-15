@@ -1,6 +1,6 @@
-import React from 'react';
-import PasteForm from '../components/PasteForm';
-import PasteList from '../components/PasteList';
+import React from 'react'
+import PasteForm from '../components/PasteForm'
+import PasteList from '../components/PasteList'
 
 const HomePage = () => {
   return (
@@ -9,7 +9,7 @@ const HomePage = () => {
       <PasteForm />
       <PasteList />
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage
